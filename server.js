@@ -3,4 +3,4 @@ var http = require('http');
 var file = new(static.Server)();
 var app = http.createServer(function (req, res) {
   file.serve(req, res);
-}).listen(process.env.PORT || 2013);
+}).listen(3000);	
