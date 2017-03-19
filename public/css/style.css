@@ -1,3 +1,10 @@
+#camera {
+  position: absolute;
+  width: 300px;
+  height: 250px;
+  opacity: 0;
+}
+
 #ls-container {
 
 font-size: 36px;
