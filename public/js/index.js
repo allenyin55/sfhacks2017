@@ -17,9 +17,12 @@ const controllers = {
     }
     if (sentiStats !== null && sentiStats !== undefined) {
       const data = sentiStats[sentiStats.length - 1];
+      console.log(data);
       $.post({
         url: '/audio',
-        data
+        data: {
+          score: data.rating
+        }
       }).done(function(data) {
         console.log(data.success);
       }).fail(function(err) {
