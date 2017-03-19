@@ -2,7 +2,7 @@
 
   <!-- Step 1. Defining a container for video chat -->
   <div id="camera"></div>
-  <div id="bar"> No-***-Roulette</div>
+  <div id="bar">Unmask</div>
   
   <div id='ls-container' style='width:1000px;height:600px;'></div>
 
@@ -101,12 +101,19 @@
             var points = 25;
             getImageScores(function() {
               console.log("window.scores", window.scores)
-              console.log("meaned points", points)
               axios.get('/score')
               .then(function(score){
-                  console.log("in setScore", score.data.data)
-                  points = math.mean(math.mean(window.scores), score.data.data)
-                  console.log("points from setScore", points)
+                  console.log("asdfadf", window.audioScore)
+                  var elmt = window.scores.slice(0, 5);
+                  var sum = 0;
+                  for( var i = 0; i < elmt.length; i++ ){
+                      sum += parseInt( elmt[i], 10 ); //don't forget to add the base
+                  }
+                  if (window.audioScore !== undefined && window.audioScore !== null){
+                    var points = sum/elmt.length + window.audioScore.rating/1.5;
+                    console.log("points from setScore", points)
+                  }
+                  
                   var details = [" ", " ", " "] //Name, age, location
                   if (points >= 25) {
                     details[0] = profile.name; //replace

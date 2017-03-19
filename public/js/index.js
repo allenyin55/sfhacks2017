@@ -17,6 +17,7 @@ const controllers = {
     }
     if (sentiStats !== null && sentiStats !== undefined) {
       const data = sentiStats[sentiStats.length - 1];
+      window.audioScore = data;
       console.log(data);
       $.post({
         url: '/audio',
