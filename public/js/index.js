@@ -15,17 +15,24 @@ const controllers = {
   analyzeAudio: function() {
     if (window.sentiStats !== undefined) {
       var sentiStats = window.sentiStats;
-      console.log(sentiStats);
     }
     if (sentiStats !== null && sentiStats !== undefined) {
-      const returnInfo = sentiStats[sentiStats.length - 1];
+      const data = sentiStats[sentiStats.length - 1];
+      $.post({
+        url: '/audio',
+        data
+      }).done(function(data) {
+        console.log(data.success);
+      }).fail(function(err) {
+        console.log('Failed:', err);
+      });
     }
   },
   analyzeImage: function() {
     var sentimentUrl = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize";
     var camera = new JpegCamera("#camera");
     var snapshot = camera.capture();
-    
+
     // var oReq = new XMLHttpRequest();
     // oReq.onload = function(e) {
     //   var arraybuffer = oReq.response;
