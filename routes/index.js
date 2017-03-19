@@ -7,8 +7,20 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
-router.post('/audio', function(req, res) {
+var audio_score = 50;
 
+router.get('/score', function(req, res) {
+  res.json({
+    success: true,
+    data: audio_score
+  });
+}
+
+router.post('/audio', function(req, res) {
+  audio_score = (audio_score + req.data) / 2;
+  res.json({
+    success: true
+  });
 });
 
 router.post('/profiles', function(req, res){

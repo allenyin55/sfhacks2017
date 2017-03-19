@@ -26,17 +26,28 @@ const controllers = {
     var camera = new JpegCamera("#camera");
     var snapshot = camera.capture();
     
-    snapshot.upload({
-      api_url: sentimentUrl,
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': '7b464cb879ae4459a1e1a96eb853bc90'
-      }
-    }).done(function(response) {
-      console.log(response);
-      this.discard();
-    }).fail(function(status_code, error_message, response) {
-      alert("Upload failed with status " + status_code);
-    });
+    // var oReq = new XMLHttpRequest();
+    // oReq.onload = function(e) {
+    //   var arraybuffer = oReq.response;
+    //   console.log(arraybuffer);
+    //   // axios({
+    //   //   method: 'post',
+    //   //   url: sentimentUrl,
+    //   //   headers: {
+    //   //     'Content-Type': 'application/octet-stream',
+    //   //     'Ocp-Apim-Subscription-Key': '7b464cb879ae4459a1e1a96eb853bc90'
+    //   //   },
+    //   //   data: arraybuffer
+    //   // })
+    //   // .then(function(response) {
+    //   //   console.log(response);
+    //   // })
+    //   // .catch(function(error) {
+    //   //   console.log(error);
+    //   // });
+    // }
+    // oReq.open("GET", '../jpeg_camera/shutter.ogg');
+    // oReq.responseType = "arraybuffer";
+    // oReq.send();
   }
 }
