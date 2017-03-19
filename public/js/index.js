@@ -14,35 +14,17 @@ const controllers = {
   analyzeAudio: function() {
     if (window.sentiStats !== undefined) {
       var sentiStats = window.sentiStats;
-      console.log(sentiStats);
     }
     if (sentiStats !== null && sentiStats !== undefined) {
-      const returnInfo = sentiStats[sentiStats.length - 1];
+      const data = sentiStats[sentiStats.length - 1];
+      $.post({
+        url: '/audio',
+        data
+      }).done(function(data) {
+        console.log(data.success);
+      }).fail(function(err) {
+        console.log('Failed:', err);
+      });
     }
   }
-
-    
-    // var oReq = new XMLHttpRequest();
-    // oReq.onload = function(e) {
-    //   var arraybuffer = oReq.response;
-    //   console.log(arraybuffer);
-    //   // axios({
-    //   //   method: 'post',
-    //   //   url: sentimentUrl,
-    //   //   headers: {
-    //   //     'Content-Type': 'application/octet-stream',
-    //   //     'Ocp-Apim-Subscription-Key': '7b464cb879ae4459a1e1a96eb853bc90'
-    //   //   },
-    //   //   data: arraybuffer
-    //   // })
-    //   // .then(function(response) {
-    //   //   console.log(response);
-    //   // })
-    //   // .catch(function(error) {
-    //   //   console.log(error);
-    //   // });
-    // }
-    // oReq.open("GET", '../jpeg_camera/shutter.ogg');
-    // oReq.responseType = "arraybuffer";
-    // oReq.send();
-  }
+}
