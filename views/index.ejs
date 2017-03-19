@@ -12,8 +12,8 @@
 
   <div id="info"> </div>
 
-  <button type="submit" id="btn-login">Sign In</button>
-  <button type="submit" id="btn-logout">Sign out</button>
+  <button class="ui yellow basic button" type="submit" id="btn-login">Sign In</button>
+  <button class="ui yellow basic button" type="submit" id="btn-logout">Sign out</button>
 
   <!-- Step 2. Including LyteSpark library -->
   <script src='https://s3.amazonaws.com/s3.lytespark.com/api.soft.js'></script>
@@ -33,6 +33,7 @@
     var lock = new Auth0Lock('AT5kpQWFrNnOLwks12oj3W9DZCCAmQui', 'hyin775.auth0.com');
     var btn_login = document.getElementById('btn-login');
     var btn_logout = document.getElementById('btn-logout');
+    window.scores = [];
     var logout = function() {
       localStorage.removeItem('id_token');
       window.location.href = "/";
@@ -74,9 +75,38 @@
 
     retrieve_profile();
 
-    var getBlurry = function(profile) {
-      
-      axios.post('/profiles', profile)
+    function getImageScores(callback) {
+      axios.get('/getImage')
+      .then(function(data){
+        var score = parseInt(data.data) * 10.56 || 0;
+        console.log(score);
+        window.scores.push(2 * score);
+        return callback();
+      })
+    }
+
+    function setScore(score, points){
+      console.log("in setScore", score.data.data)
+      points = math.mean(points, score.data.data)
+      var details = [" ", " ", " "] //Name, age, location
+      if (points >= 25) {
+        details[0] = profile.name; //replace
+      }
+      if (points >= 50) {
+        details[1] = profile.age; //replace
+      }
+      if (points >= 75) {
+        details[2] = profile.location; //replace
+      }
+      document.getElementById("info").innerHTML = details[0] + " <BR>" + details[1] + " <BR>" + details[2];
+
+      points = 30 - points * 0.3;
+      document.getElementById("ls-container").style['-webkit-filter'] 
+      = "blur(" + points + "px)";
+      }
+
+    var getBlurry = function() {
+      axios.post('/profiles', window.profile)
        .then(function (response) {
         var profiles = response.data;
         profiles.forEach((profile) => {
@@ -88,28 +118,21 @@
             avatar.style.display = "block";
             btn_logout.style.display = "block";*/
             var points = 25;
-            var details = [" ", " ", " "] //Name, age, location
-            if (points >= 25) {
-              details[0] = profile.name; //replace
-            }
-            if (points >= 50) {
-              details[1] = profile.age; //replace
-            }
-            if (points >= 75) {
-              details[2] = profile.location; //replace
-            }
-            document.getElementById("info").innerHTML = details[0] + " <BR>" + details[1] + " <BR>" + details[2];
-
-            points = 30 - points * 0.3;
-            document.getElementById("ls-container").style['-webkit-filter'] 
-            = "blur(" + points + "px)";
-          }
+            getImageScores(function() {
+              console.log("window.scores", window.scores)
+              points = math.mean(window.scores);
+              axios.get('/score')
+              .then(setScore(score, points))
+              .catch(function (error) {
+                console.log(error);
+              });
+             })
+          .catch(function (error) {
+            console.log(error);
+          });
+        }
         })
-      })
-      .catch(function (error) {
-        console.log(error);
       });
-    };
 
     setInterval(getBlurry, 5000);
   </script>

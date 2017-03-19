@@ -22,9 +22,37 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
-router.post('/audio', function(req, res) {
+var audio_score = 50;
 
+router.get('/score', function(req, res) {
+  res.json({
+    success: true,
+    data: audio_score
+  });
+})
+
+router.post('/audio', function(req, res) {
+  audio_score = (audio_score + req.data) / 2;
+  res.json({
+    success: true
+  });
 });
+
+router.get('/getImage', function(req, res, next){
+	var spawn = require('child_process').spawn,
+		  py    = spawn('python27', ['emotions.py']),
+		  data = [1,2,3,4,5,6,7,8,9],
+		  dataString = '';
+
+	py.stdout.on('data', function(data){
+		//dataString += data.toString();
+		console.log("from python", data.toString());
+		res.end(data.toString());
+	});
+
+	py.stdin.write(JSON.stringify(data));
+	py.stdin.end();
+})
 
 router.post('/profiles', function(req, res){
 
