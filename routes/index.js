@@ -22,10 +22,10 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
-audio_score = 50;
+global.audio_score = 50;
 
 router.get('/score', function(req, res) {
-	console.log("audio_score", audio_score)
+	console.log("audio_score", global.audio_score)
   res.json({
     success: true,
     data: audio_score
@@ -34,7 +34,7 @@ router.get('/score', function(req, res) {
 
 router.post('/audio', function(req, res) {
   console.log("/audio", req.body.score);
-  audio_score = (audio_score + req.body.score) / 2;
+  global.audio_score = (audio_score + req.body.score) / 2;
   res.json({
     success: true
   });
@@ -42,7 +42,7 @@ router.post('/audio', function(req, res) {
 
 router.get('/getImage', function(req, res, next){
 	var spawn = require('child_process').spawn,
-		  py    = spawn('python27', ['emotions.py']),
+		  py    = spawn('python', ['emotions.py']),
 		  data = [1,2,3,4,5,6,7,8,9],
 		  dataString = '';
 
