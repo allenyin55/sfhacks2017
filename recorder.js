@@ -9,10 +9,10 @@ const Speech = require('@google-cloud/speech');
 const speech = Speech();
 
 // The encoding of the audio file, e.g. 'LINEAR16'
-// const encoding = 'LINEAR16';
+const encoding = 'LINEAR16';
 
 // The sample rate of the audio file, e.g. 16000
-// const sampleRate = 16000;
+const sampleRate = 16000;
 
 const request = {
   config: {
