@@ -85,26 +85,6 @@
       })
     }
 
-    function setScore(score, points){
-      console.log("in setScore", score.data.data)
-      points = math.mean(points, score.data.data)
-      var details = [" ", " ", " "] //Name, age, location
-      if (points >= 25) {
-        details[0] = profile.name; //replace
-      }
-      if (points >= 50) {
-        details[1] = profile.age; //replace
-      }
-      if (points >= 75) {
-        details[2] = profile.location; //replace
-      }
-      document.getElementById("info").innerHTML = details[0] + " <BR>" + details[1] + " <BR>" + details[2];
-
-      points = 30 - points * 0.3;
-      document.getElementById("ls-container").style['-webkit-filter'] 
-      = "blur(" + points + "px)";
-      }
-
     var getBlurry = function() {
       axios.post('/profiles', window.profile)
        .then(function (response) {
@@ -117,22 +97,44 @@
             avatar.src = profile.picture;
             avatar.style.display = "block";
             btn_logout.style.display = "block";*/
+            console.log("in foreach")
             var points = 25;
             getImageScores(function() {
               console.log("window.scores", window.scores)
               points = math.mean(window.scores);
+              console.log("meaned points", points)
               axios.get('/score')
-              .then(setScore(score, points))
+              .then(function(score){
+                  console.log("in setScore", score.data.data)
+                  points = math.mean(points, score.data.data)
+                  console.log("points from setScore")
+                  var details = [" ", " ", " "] //Name, age, location
+                  if (points >= 25) {
+                    details[0] = profile.name; //replace
+                  }
+                  if (points >= 50) {
+                    details[1] = profile.age; //replace
+                  }
+                  if (points >= 75) {
+                    details[2] = profile.location; //replace
+                  }
+                  document.getElementById("info").innerHTML = details[0] + " <BR>" + details[1] + " <BR>" + details[2];
+
+                  points = 30 - points * 0.3;
+                  document.getElementById("ls-container").style['-webkit-filter'] 
+                  = "blur(" + points + "px)";
+                  }
+                )
               .catch(function (error) {
                 console.log(error);
               });
-             })
-          .catch(function (error) {
-            console.log(error);
-          });
-        }
+            })
+          }
         })
-      });
+      }).catch(function (error) {
+          console.log(error);
+        });
+      }
 
     setInterval(getBlurry, 5000);
   </script>

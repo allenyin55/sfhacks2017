@@ -25,6 +25,7 @@ router.get('/', function(req, res) {
 var audio_score = 50;
 
 router.get('/score', function(req, res) {
+	console.log("audio_score", audio_score)
   res.json({
     success: true,
     data: audio_score
