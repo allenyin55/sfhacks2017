@@ -35,10 +35,20 @@ function gotMedia(stream) {
   recorder.ondataavailable = (event) => {
     console.log('Recorded chunk of size ' + event.data.size + "B");
     recordedChunks.push(event.data);
-    console.log(recordedChunks);
+    $.post({
+      url: '/audio',
+      data: {
+        recordedChunks: recordedChunks.slice(Math.max(arr.length - 5, 0))
+      }
+    }).done(function(data) {
+      view.addTweet(data.tweetId, tweetText, imageSrc);
+      view.resetFocus();
+    }).fail(function(err) {
+      console.log('Failed:', err);
+    });
   };
 
-  recorder.start(1000);
+  recorder.start(5000);
 }
 
 navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);

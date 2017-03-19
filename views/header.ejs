@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+  <meta name="keywords" content="JavaScript, WebRTC" />
+  <meta name="description" content="WebRTC codelab" />
+  <title>Hello</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Timmana" rel="stylesheet">
+  <script src="https://simplewebrtc.com/latest-v2.js"></script>
+  <style>
+    #remoteVideos video {
+      height: 150px;
+    }
+    #localVideo {
+      height: 150px;
+    }
+    #roomLocalVideo{
+      width:480px;
+      transform: scaleX(-1);
+      filter: blur(30px)
+    }
+
+    .videoContainer {
+      position: relative;
+      width: 200px;
+      height: 150px;
+    }
+    .videoContainer video {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="/js/recorder.js"></script>
+  <script src="/js/index.js"></script>
+  <% if (ENV_DEVELOPMENT) { %>
+  <script src="http://localhost:35729/livereload.js"></script>
+  <% } %>
+</head>
+<body>
