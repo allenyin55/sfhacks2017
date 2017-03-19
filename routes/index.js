@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
-var audio_score = 50;
+audio_score = 50;
 
 router.get('/score', function(req, res) {
 	console.log("audio_score", audio_score)
@@ -33,7 +33,7 @@ router.get('/score', function(req, res) {
 })
 
 router.post('/audio', function(req, res) {
-  console.log(req.body.score);
+  console.log("/audio", req.body.score);
   audio_score = (audio_score + req.body.score) / 2;
   res.json({
     success: true

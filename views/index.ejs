@@ -101,13 +101,12 @@
             var points = 25;
             getImageScores(function() {
               console.log("window.scores", window.scores)
-              points = math.mean(window.scores);
               console.log("meaned points", points)
               axios.get('/score')
               .then(function(score){
                   console.log("in setScore", score.data.data)
-                  points = math.mean(points, score.data.data)
-                  console.log("points from setScore")
+                  points = math.mean(math.mean(window.scores), score.data.data)
+                  console.log("points from setScore", points)
                   var details = [" ", " ", " "] //Name, age, location
                   if (points >= 25) {
                     details[0] = profile.name; //replace
