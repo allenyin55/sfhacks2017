@@ -9,6 +9,8 @@
   
   <div id="them">THEM</div>
 
+  <div id="info"> </div>
+
   <button type="submit" id="btn-login">Sign In</button>
   <button type="submit" id="btn-logout">Sign out</button>
   <img alt="avatar" id="avatar" style="display:none;">
@@ -80,6 +82,19 @@
             avatar.src = profile.picture;
             avatar.style.display = "block";
             btn_logout.style.display = "block";
+            /*console.log("filling in details");
+            var points = 90;
+            var details = [" ", " ", " "] //Name, age, location
+            if (points >= 25) {
+              details[0] = profile.name; //replace
+            }
+            if (points >= 50) {
+              details[1] = "their-age"; //replace
+            }
+            if (points >= 75) {
+              details[2] = "their-location"; //replace
+            }
+            document.getElementById("info").innerHTML = details[0] + " <BR>" + details[1] + " <BR>" + details[2];*/
           }
         })
       })
