@@ -1,35 +1,44 @@
 'use strict';
 
-const record = require('node-record-lpcm16');
+var recordedChunks = [];
 
-// Imports the Google Cloud client library
-const Speech = require('@google-cloud/speech');
-
-// Instantiates a client
-const speech = Speech();
-
-// The encoding of the audio file, e.g. 'LINEAR16'
-// const encoding = 'LINEAR16';
-
-// The sample rate of the audio file, e.g. 16000
-// const sampleRate = 16000;
-
-const request = {
-  config: {
-    encoding: encoding,
-    sampleRate: sampleRate
-  }
+var constraints = window.constraints = {
+  audio: true,
+  video: false
 };
 
-// Create a recognize stream
-const recognizeStream = speech.createRecognizeStream(request)
-  .on('error', console.error)
-  .on('data', (data) => process.stdout.write(data.results));
+function handleSuccess(stream) {
+  var audioTracks = stream.getAudioTracks();
+  console.log('Got stream with constraints:', constraints);
+  console.log('Using audio device: ' + audioTracks[0].label);
+  stream.oninactive = function() {
+    console.log('Stream ended');
+  };
+  window.stream = stream; // make variable available to browser console
+  gotMedia(stream);
+}
 
-// Start recording and send the microphone input to the Speech API
-record.start({
-  sampleRate: sampleRate,
-  threshold: 0
-}).pipe(recognizeStream);
+function handleError(error) {
+  console.log('navigator.getUserMedia error: ', error);
+}
 
-console.log('Listening, press Ctrl+C to stop.');
+function gotMedia(stream) {
+  var recorder = null;
+  try {
+    recorder = new MediaRecorder(stream, {mimeType : "audio/webm"});
+  } catch (e) {
+    console.error('Exception while creating MediaRecorder: ' + e);
+    return;
+  }
+  console.log(recorder);
+
+  recorder.ondataavailable = (event) => {
+    console.log('Recorded chunk of size ' + event.data.size + "B");
+    recordedChunks.push(event.data);
+    console.log(recordedChunks);
+  };
+
+  recorder.start(1000);
+}
+
+navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
