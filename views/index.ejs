@@ -100,17 +100,17 @@
             console.log("in foreach")
             var points = 25;
             getImageScores(function() {
-              console.log("window.scores", window.scores)
+              console.log("window.scores", window.scores.slice(window.scores.length-6, -1))
               axios.get('/score')
               .then(function(score){
                   console.log("asdfadf", window.audioScore)
-                  var elmt = window.scores.slice(0, 5);
+                  var elmt = window.scores.slice(window.scores.length-6, -1);
                   var sum = 0;
                   for( var i = 0; i < elmt.length; i++ ){
                       sum += parseInt( elmt[i], 10 ); //don't forget to add the base
                   }
                   if (window.audioScore !== undefined && window.audioScore !== null){
-                    var points = sum/elmt.length + window.audioScore.rating/1.5;
+                    var points = sum/elmt.length + 15 + window.audioScore.rating/1.5;
                     console.log("points from setScore", points)
                   }
                   
@@ -126,7 +126,7 @@
                   }
                   document.getElementById("info").innerHTML = details[0] + " <BR>" + details[1] + " <BR>" + details[2];
 
-                  points = 30 - points * 0.3;
+                  points = 30 - points * 0.35;
                   document.getElementById("ls-container").style['-webkit-filter'] 
                   = "blur(" + points + "px)";
                   }
