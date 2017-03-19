@@ -2,20 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
-  <meta name="keywords" content="JavaScript, WebRTC" />
-  <meta name="description" content="WebRTC codelab" />
-  <title>Random</title>
+  <title>Pixel</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css" />
   <link href="https://fonts.googleapis.com/css?family=Timmana" rel="stylesheet">
-  <script src="https://simplewebrtc.com/latest-v2.js"></script>
   <style type="text/css">
       body {
-
-      font-size: 36px;
-      font-family: 'Timmana', sans-serif;
-      color: white;
-      background: #6b87a5;
+        font-size: 36px;
+        font-family: 'Timmana', sans-serif;
+        color: white;
+        background: #6b87a5;
       }
 
       video{
@@ -31,24 +26,28 @@
           left: 0px;
           padding-left:20px;
           padding-top: 12px;
-          background: rgba(0,0,0,.5)
+          background: rgba(0,0,0,.5);
+          z-index: 1000;
       }
 
 
       #you {
           position: absolute;
-          left: 140px;
-          top: 90px;
+          left: 15px;
+          top: 84px;
       }
 
       #them {
           position: absolute;
-          left: 800px;
-          top: 90px;
+          left: 515px;
+          top: 84px;
       }
       </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.auth0.com/js/lock/10.12.1/lock.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <script src="/js/recorder.js"></script>
   <script src="/js/index.js"></script>
   <% if (ENV_DEVELOPMENT) { %>
